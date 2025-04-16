@@ -49,6 +49,23 @@ const products = [
 
 const targetContainer = document.getElementById('products');
 const totalPrice = document.getElementById('total');
+const form = document.getElementById('productForm');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const name = event.target.name.value;
+  const price = +event.target.price.value;
+  const imageUrl = event.target.imageUrl.value;
+
+  products.push({
+    name,
+    price,
+    imageUrl,
+  });
+
+  console.log(products);
+});
 
 // display products to the screen
 function dipslay(items) {
@@ -98,8 +115,6 @@ function updateTotalPrice() {
 }
 
 function test(buttons, operation) {
-  console.log(operation);
-
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', () => {
       const actions = document.querySelectorAll('.action');
@@ -113,7 +128,6 @@ function test(buttons, operation) {
       totalPrice.innerText = `Price: $${result}`;
     });
   }
-
   return;
 }
 
