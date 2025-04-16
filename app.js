@@ -48,6 +48,7 @@ const products = [
 ];
 
 const targetContainer = document.getElementById('products');
+const totalPrice = document.getElementById('total');
 
 // display products to the screen
 function dipslay(items) {
@@ -58,8 +59,8 @@ function dipslay(items) {
         <h2 class="name">Name: ${product.name}</h2>
         <h2 class="price">Price: $${product.price}</h2>
         <div class="action">
-        <button class="btn bntMinus">+</button>
-        <button class="btn bntMinus">-</button>
+        <button class="btn btnPlus">+</button>
+        <button class="btn btnMinus">-</button>
         </div>
       </div>
     `
@@ -70,4 +71,51 @@ function dipslay(items) {
   }
 }
 
+function extractPriceFromString(str) {
+  return +str.split('$')[1];
+}
+
+function updateTotalPrice() {
+  let plusBtns = document.querySelectorAll('.btnPlus');
+  let minusBtns = document.querySelectorAll('.btnMinus');
+
+  plusBtns = Array.from(plusBtns);
+  minusBtns = Array.from(minusBtns);
+
+  // for (let i = 0; i < plusBtns.length; i++) {
+  //   plusBtns[i].addEventListener('click', () => {
+  //     const actions = document.querySelectorAll('.action');
+  //     const priceElement = actions[i].previousElementSibling;
+  //     const total = extractPriceFromString(totalPrice.textContent);
+  //     const price = extractPriceFromString(priceElement.textContent);
+  //     const result = total + price;
+
+  //     totalPrice.innerText = `Price: $${result}`;
+  //   });
+  // }
+  test(plusBtns, '+');
+  test(minusBtns, '-');
+}
+
+function test(buttons, operation) {
+  console.log(operation);
+
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', () => {
+      const actions = document.querySelectorAll('.action');
+      const priceElement = actions[i].previousElementSibling;
+      const total = extractPriceFromString(totalPrice.textContent);
+      const price = extractPriceFromString(priceElement.textContent);
+
+      const result = operation === '+' ? total + price : total - price;
+
+      if (result < 0) return;
+      totalPrice.innerText = `Price: $${result}`;
+    });
+  }
+
+  return;
+}
+
 dipslay(products);
+updateTotalPrice();
